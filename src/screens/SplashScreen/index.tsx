@@ -1,5 +1,5 @@
 import getMovies from '@/helpers/api/requests/movieRequests';
-import {clearFavorites, setMovies} from '@/redux/slices/dataReducer';
+import {setMovies} from '@/redux/slices/dataReducer';
 import React, {useEffect} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';

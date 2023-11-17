@@ -23,7 +23,7 @@ const dataSlice = createSlice({
         movie => movie.trackId === payload.trackId,
       );
       if (index === -1) {
-        state.favorite_movies.push(payload);
+        state.favorite_movies.unshift(payload);
       } else {
         state.favorite_movies[index] = {
           ...state.favorite_movies[index],

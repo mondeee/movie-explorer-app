@@ -17,7 +17,7 @@ export default async function getMovies() {
         },
       },
     );
-    console.log(JSON.stringify(data, null, 4));
+    // console.log(JSON.stringify(data, null, 4));
     console.log('response status is: ', status);
     return data;
   } catch (error) {

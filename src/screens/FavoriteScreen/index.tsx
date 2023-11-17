@@ -17,9 +17,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {addToFavorites, removeFavoriteItem} from '@/redux/slices/dataReducer';
 import Header from '@/components/Header';
 import {useIsFocused} from '@react-navigation/native';
-import {updateLocalData} from '@/helpers/data/data_helper';
 
-type HomeScreenProps = NativeStackScreenProps<MainStackParamList, 'Home'>;
+type FavoriteScreenProps = NativeStackScreenProps<
+  MainStackParamList,
+  'Favorites'
+>;
 
 interface DataListState {
   data: {
@@ -30,39 +32,29 @@ interface DataListState {
 export const useTypedListSelector: TypedUseSelectorHook<DataListState> =
   useSelector;
 
-export default function HomeScreen(props: HomeScreenProps): JSX.Element {
+export default function FavoriteScreen(
+  props: FavoriteScreenProps,
+): JSX.Element {
   const {
     navigation: {navigate},
   } = props;
-  const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const [showSearchBar, setShowSearchBar] = useState<Boolean>(false);
   const [isDataLoading, setDataLoading] = useState(false);
-  const movies = useTypedListSelector(state => state.data.movies);
   const favorite_movies = useTypedListSelector(
     state => state.data.favorite_movies,
   );
-  const [showFavorites, setShowFavorites] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [localData, setLocalData] = useState<Movie[]>(movies);
+  const [localData, setLocalData] = useState<Movie[]>(favorite_movies);
 
   useEffect(() => {
-    const newArr = updateLocalData(movies, favorite_movies);
-    setLocalData(newArr);
+    setLocalData(favorite_movies);
   }, [isFocused]);
 
   useEffect(() => {
-    if (showFavorites) {
-      setLocalData(favorite_movies);
-    } else {
-      const newArr = updateLocalData(movies, favorite_movies);
-      setLocalData(newArr);
-    }
-  }, [showFavorites]);
-
-  useEffect(() => {
     setTimeout(() => {
-      const tempArr = [...movies];
+      const tempArr = [...favorite_movies];
       if (searchInput && searchInput?.length > 2) {
         setDataLoading(true);
         const lowerCaseSearch = searchInput.toLowerCase();
@@ -72,7 +64,7 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
         setLocalData(filteredArr);
       } else {
         // updateLocalData();
-        setLocalData(movies);
+        setLocalData(favorite_movies);
       }
       setDataLoading(false);
     }, 1000);
@@ -96,17 +88,10 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
     }
   };
 
-  const renderLeftHeaderButton = () => {
-    return (
-      <TouchableOpacity onPress={() => navigate('Favorites')}>
-        <Icon name="heart" size={24} color={COLORS.PRIMARY_COLOR} />
-      </TouchableOpacity>
-    );
-  };
-
   const renderRightHeaderButton = () => {
     return (
       <TouchableOpacity onPress={() => setShowSearchBar(!showSearchBar)}>
+        {/* <Text className="text-white">Search</Text> */}
         <Icon name="search" size={24} color={COLORS.PRIMARY_COLOR} />
       </TouchableOpacity>
     );
@@ -115,8 +100,7 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
   const renderHeader = () => {
     return (
       <Header
-        headerTitle={'Home'}
-        renderLeftButton={renderLeftHeaderButton}
+        headerTitle={'Favorites'}
         renderRightButton={renderRightHeaderButton}
       />
     );
@@ -163,7 +147,7 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
     return (
       <View className="center items-center justify-center">
         <Text className="text-white text-center font-md text-lg">
-          {`no items found for "${searchInput}".`}
+          {'List is empty.'}
         </Text>
       </View>
     );

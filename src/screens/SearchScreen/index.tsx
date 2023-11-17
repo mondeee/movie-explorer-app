@@ -19,7 +19,7 @@ import Header from '@/components/Header';
 import {useIsFocused} from '@react-navigation/native';
 import {updateLocalData} from '@/helpers/data/data_helper';
 
-type HomeScreenProps = NativeStackScreenProps<MainStackParamList, 'Home'>;
+type SearchScreenProps = NativeStackScreenProps<MainStackParamList, 'Search'>;
 
 interface DataListState {
   data: {
@@ -30,19 +30,18 @@ interface DataListState {
 export const useTypedListSelector: TypedUseSelectorHook<DataListState> =
   useSelector;
 
-export default function HomeScreen(props: HomeScreenProps): JSX.Element {
+export default function SearchScreen(props: SearchScreenProps): JSX.Element {
   const {
     navigation: {navigate},
   } = props;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const [showSearchBar, setShowSearchBar] = useState<Boolean>(false);
+  const [showSearchBar, setShowSearchBar] = useState<Boolean>(true);
   const [isDataLoading, setDataLoading] = useState(false);
   const movies = useTypedListSelector(state => state.data.movies);
   const favorite_movies = useTypedListSelector(
     state => state.data.favorite_movies,
   );
-  const [showFavorites, setShowFavorites] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [localData, setLocalData] = useState<Movie[]>(movies);
 
@@ -117,7 +116,7 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
       <Header
         headerTitle={'Home'}
         renderLeftButton={renderLeftHeaderButton}
-        renderRightButton={renderRightHeaderButton}
+        // renderRightButton={renderRightHeaderButton}
       />
     );
   };
