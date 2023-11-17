@@ -42,13 +42,13 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
   const favorite_movies = useTypedListSelector(
     state => state.data.favorite_movies,
   );
-  const [showFavorites, setShowFavorites] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [localData, setLocalData] = useState<Movie[]>(movies);
 
   useEffect(() => {
     const newArr = updateLocalData(movies, favorite_movies);
     setLocalData(newArr);
+    setShowSearchBar(false);
   }, [isFocused]);
 
   useEffect(() => {
@@ -69,10 +69,11 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
         const filteredArr = tempArr.filter(i =>
           i.trackName?.toLowerCase().includes(lowerCaseSearch),
         );
-        setLocalData(filteredArr);
+        const finalArr = updateLocalData(filteredArr, favorite_movies);
+        setLocalData(finalArr);
       } else {
-        // updateLocalData();
-        setLocalData(movies);
+        const finalArr = updateLocalData(movies, favorite_movies);
+        setLocalData(finalArr);
       }
       setDataLoading(false);
     }, 1000);

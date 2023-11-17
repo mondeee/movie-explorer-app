@@ -60,7 +60,7 @@ export default function MovieDetailsScreen(
           className="flex rounded-md m-4 self-center"
         />
         <View className="flex-row flex-grow justify-between items-center mt-4">
-          <Text className="text-white self-center font-bold text-xl">
+          <Text className="text-white self-center font-bold text-xl mr-5">
             {item?.trackName}
           </Text>
           <TouchableOpacity onPress={() => _onAddToFavorites()}>
