@@ -52,15 +52,6 @@ export default function HomeScreen(props: HomeScreenProps): JSX.Element {
   }, [isFocused]);
 
   useEffect(() => {
-    if (showFavorites) {
-      setLocalData(favorite_movies);
-    } else {
-      const newArr = updateLocalData(movies, favorite_movies);
-      setLocalData(newArr);
-    }
-  }, [showFavorites]);
-
-  useEffect(() => {
     setTimeout(() => {
       const tempArr = [...movies];
       if (searchInput && searchInput?.length > 2) {
